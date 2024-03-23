@@ -21,3 +21,7 @@
       name: mmysqld
       state: started
       enabled: yes
+
+  - name: set up the password
+    ansible.builtin.command: mysql_secure_installation --set-root-pass RoboShop@1
+    
