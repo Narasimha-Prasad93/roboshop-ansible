@@ -19,6 +19,7 @@
       path: /app
       state: directory
       recurse: yes
+      
   - name: extract the application folder
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip

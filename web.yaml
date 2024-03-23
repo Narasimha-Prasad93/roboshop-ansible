@@ -1,0 +1,32 @@
+- name: web
+  hosts: web
+  become: yes
+  tasks: 
+  - name: install nginx 
+    ansible.builtin.package:
+      name: nginx 
+      state: present
+      enabled: yes
+
+  
+  - name: remove default contenet
+    ansible.builtin.file:
+      path: /usr/share/nginx/html/*
+      state: absent
+
+  - name: remove default contenet
+    ansible.builtin.file:
+      path: /usr/share/nginx/html/*
+      state: directory
+
+  - name: download the application content from url
+    ansible.builtin.get_url: 
+    url: https://roboshop-builds.s3.amazonaws.com/web.zip
+    dest: /tmp
+       
+
+  - name: start the nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+
