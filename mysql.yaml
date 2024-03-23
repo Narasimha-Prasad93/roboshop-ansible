@@ -1,0 +1,23 @@
+- name: mysql
+  hosts: mysql
+  become: yes
+  tasks: 
+  - name: disable old mysql module
+    ansible.builtin.command: dnf module disable mysql -y
+    
+  - name: copy mysql repo's
+    ansible.builtin.copy:
+      src: mysql.repo
+      dest: /etc/yum.repos.d/mysql.repo
+
+  - name: Install MySQL Server
+    ansible.builtin.package:
+      name: mysql-community-server
+      state: present
+
+  
+  - name: start and enable MySQL Server
+    ansible.builtin.servie:
+      name: mmysqld
+      state: started
+      enabled: yes
