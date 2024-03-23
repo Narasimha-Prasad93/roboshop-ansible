@@ -6,7 +6,7 @@
     ansible.builtin.package:
       name: nginx 
       state: present
-      enabled: yes
+      
 
   
   - name: remove default contenet
@@ -23,10 +23,22 @@
     ansible.builtin.get_url: 
     url: https://roboshop-builds.s3.amazonaws.com/web.zip
     dest: /tmp
-       
 
-  - name: start the nginx
+  - name: extract the web application
+    ansible.builtin.unarchive:
+    src: /tmp/web.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
+
+  
+  - name: roboshop configuration
+    ansible.builtin.copy:
+      src: roboshop.conf 
+      dest: /etc/nginx/default.d/roboshop.conf
+
+  - name: restart the nginx
     ansible.builtin.service:
       name: nginx
       state: restarted
+      enabled: yes
 
